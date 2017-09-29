@@ -108,11 +108,14 @@ class Muscle():
 
         # if a node is touching the ground, and muscle at the end of the extenstion, the force should be applied
         if (self.node1.onGround or self.node2.onGround) and self.count == self.extendTime:
+            xoffset = math.abs(node2.x - node1.x)/2
+            yoffset = math.abs(node1.y - node1.y)/2
+            
             dx = self.node1.x - self.node2.x
             dy = self.node1.y - self.node2.y
             dist = math.hypot(dx, dy)
             theta = math.atan2(dy, dx)
-            force = (self.extendLength - self.contractLength) * .5
+            force = math.hypot(yoffset,xoffset) * .5
 
             self.node1.accelerate((theta + 0.5 * math.pi, force))
             self.node2.accelerate((theta + 0.5 * math.pi, force))
@@ -122,7 +125,7 @@ class Muscle():
 
         else:
             xoffset = math.abs(node2.x - node1.x)/2
-            yoffset = math.abs(node3.y - node1.y)/2
+            yoffset = math.abs(node1.y - node1.y)/2
             if self.contracting == True:
                 if self.node1.y > self.node2.y:    
                     self.node1.x +=xoffset
