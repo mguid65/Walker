@@ -4,3 +4,4 @@ The following project is an evolution simulation of creatures that are made up o
 ### tasks:
 - abstract: due Oct. 9th
 - create working environment
+- test Nodes and Muscles
