@@ -79,7 +79,7 @@ def main():
                 right = False
             if e.type == KEYUP and e.key == K_LEFT:
                 left = False
-        
+       	    
 
         # draw background
         for y in range(64):
@@ -102,7 +102,7 @@ class Camera(object):
         self.state = Rect(0, 0, width, height)
 
     def apply(self, target):
-        return target.rect.move(self.state.topleft)
+        return target.rect.move(self.state.left,1080-32)
 
     def update(self, target):
         self.state = self.camera_func(self.state, target.rect)
@@ -110,7 +110,7 @@ class Camera(object):
 def simple_camera(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
-    return Rect(-l+HALF_WIDTH, -t+HALF_HEIGHT, w, h)
+    return Rect(-l+HALF_WIDTH, -t+WIN_HEIGHT, w, h)
 
 
 
