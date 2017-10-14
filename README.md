@@ -14,7 +14,6 @@
 - ~~setup neural network~~
 - rename this repo to something else
 - offload computation to gpu to save time using pycuda
-  - activation functions
 - tweak neural network to pass condition
 - start experimental phase (compare to other neural networks)
 - write up report
