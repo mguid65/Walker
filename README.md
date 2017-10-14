@@ -14,6 +14,7 @@
 - ~~setup neural network~~
 - rename this repo to something else
 - tweak nueral network to pass condition
+- offload computation to gpu to save time (pycuda)
 - start experimental phase (compare to other neural networks)
 - write up report
 - make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
