@@ -16,4 +16,4 @@
 - tweak nueral network to pass condition
 - start experimental phase (compare to other neural networks)
 - write up report
-- make powerpoint slides for presentation (conserved for Aaron, Blake, and Harry)
+- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
