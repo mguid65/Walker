@@ -7,6 +7,7 @@ import gym
 from bipedalwalker_env import *
 import neat
 import os
+import sys
 
 env = gym.make('BiPedalWalker-v0')
 
@@ -32,7 +33,17 @@ def eval_genomes(genomes, config):
     genome.fitness = eval_genome(genome, config)
     if best_genome is None or best_genome.fitness < genome.fitness:
       best_genome = genome
-  print("Best performance of this generation: {}\n".format(best_genome.fitness))
+  if render:
+    simulate(best_genome, config)
+
+# this will render the simulation if the user desires it
+def simulate(genome, config):
+  nnet = neat.nn.FeedForwardNetwork.create(genome, config)
+  obs = env.reset()
+  for time_step in range(1600):
+    output = nnet.activate(obs)
+    obs, reward, done, info = env.step(output)
+    env.render()
 
 def run(config_file):
   # load the configuration
@@ -41,10 +52,11 @@ def run(config_file):
   # create the population & display progress
   p = neat.Population(config)
   p.add_reporter(neat.StdOutReporter(True))
-
-  winner = p.run(eval_genomes, 500)
+  p.add_reporter(neat.Checkpointer(100, 10000))
+  winner = p.run(eval_genomes, 1000)
 
 if __name__ == '__main__':
   local_dir = os.path.dirname(__file__)
   config_path = os.path.join(local_dir, 'config')
+  render = sys.argv[1]
   run(config_path)

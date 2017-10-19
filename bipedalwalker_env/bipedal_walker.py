@@ -418,8 +418,8 @@ class BipedalWalker(gym.Env):
             reward = shaping - self.prev_shaping
         self.prev_shaping = shaping
 
-        for a in action:
-            reward -= 0.00035 * MOTORS_TORQUE * np.clip(np.abs(a), 0, 1)
+        # for a in action:
+        #     reward -= 0.00035 * MOTORS_TORQUE * np.clip(np.abs(a), 0, 1)
             # normalized to about -50.0 using heuristic, more optimal agent should spend less
 
         done = False
