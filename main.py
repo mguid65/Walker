@@ -8,7 +8,6 @@ from bipedalwalker_env import *
 import neat
 import os
 import sys
-import visualize
 import getopt
 
 env = gym.make('BiPedalWalker-v0')
