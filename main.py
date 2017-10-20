@@ -1,4 +1,4 @@
-# author: Wilson Zhu
+# author: Wilson Zhu, Christopher Schayer
 # the main execution file for the simulation
 
 # GOAL => must get 300 pts in 1600 time steps
