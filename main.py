@@ -33,7 +33,7 @@ def eval_genomes(genomes, config):
     genome.fitness = eval_genome(genome, config)
     if best_genome is None or best_genome.fitness < genome.fitness:
       best_genome = genome
-  if render:
+  if render == "y":
     simulate(best_genome, config)
 
 # this will render the simulation if the user desires it
@@ -55,10 +55,19 @@ def run(config_file):
   p.add_reporter(neat.Checkpointer(100, 10000))
   winner = p.run(eval_genomes, 1000)
 
+def run_from_checkpoint(filename):
+  p = neat.Checkpointer.restore_checkpoint(filename)
+  p.add_reporter(neat.StdOutReporter(True))
+  p.add_reporter(neat.Checkpointer(100, 10000))
+  winner = p.run(eval_genomes, 1000)
+
 if __name__ == '__main__':
   local_dir = os.path.dirname(__file__)
   config_path = os.path.join(local_dir, 'config')
-  render = False
-  if len(sys.argv) == 2:
-    render = True
-  run(config_path)
+  render = input("Do you want to render? [y/n] ")
+  load_save = input("Do you want to load from an existing checkpoint? [y/n] ")
+  if load_save == "y":
+    filename = input("Please input the checkpoint filename you want to load from: ")
+    run_from_checkpoint(filename)
+  else:
+    run(config_path)
