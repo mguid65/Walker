@@ -13,7 +13,7 @@ import getopt
 
 env = gym.make('BiPedalWalker-v0')
 render = None
-evaluator = None
+
 TIMESTEPS = 1600
 GENERATIONS = 1000
 
@@ -59,34 +59,60 @@ def depict(genome, config):
                   env.reset()
                   break
 
-def run(config_file,thread=1):
+
+def run(checkPoint, threads=1):
+      evaluator = createEvaluator(threads)
+      p = None
+    
+      if checkPoint:
+           p = genFromCP(checkPoint,evaluator)
+      else:
+            local_dir = os.path.dirname(__file__)
+            config_path = os.path.join(local_dir, 'config')
+            p = genNewPop(config_path,evaluator)
+      if p:
+        winner = p.run(evaluator, GENERATIONS)
+
+
+def createEvaluator(thread):
+      evaluator = None
+  
+      if thread > 1:
+            pe = neat.ParallelEvaluator(thread, eval_genome)
+            evaluator = pe.evaluate
+      else: 
+            evaluator = eval_genomes
+      
+      return evaluator
+
+def genNewPop(config_file,evaluator):
   # load the configuration
-  global evaluator
+  print('\nGenerating new population.')
   config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
   
   # create the population & display progress
   p = neat.Population(config)
-
   p.add_reporter(neat.StdOutReporter(True))
-  if thread > 1:
-        pe = neat.ParallelEvaluator(thread, eval_genome)
-        evaluator = pe.evaluate
-  else:
-        evaluator = eval_genomes
-  winner = p.run(evaluator, GENERATIONS)
-
-
-def run_from_checkpoint(filename):
-  p = neat.Checkpointer.restore_checkpoint(filename)
+  
+  return p
+  
+     
+def genFromCP(checkPoint,evaluator):
+  
+  #generate population from checkpoint
+  print('\nLoading from checkpoint {}'.format(checkPoint))
+  p = neat.Checkpointer.restore_checkpoint(checkPoint)
   #p.generation=1
   p.add_reporter(neat.StdOutReporter(True))
   p.add_reporter(neat.Checkpointer(100, 10000))
-  winner = p.run(eval_genomes, GENERATIONS)
+  return p
 
 def main(argv):
+      
       global render
-      checkPoint = None
       threads = 1
+      checkPoint = None
+
       try:
         opts, args = getopt.getopt(argv,"m:f:t:")
       except getopt.GetoptError:
@@ -101,17 +127,11 @@ def main(argv):
             elif opt == '-t':
                   try:
                     threads = int(arg)
-                    print(threads)
                   except TypeError as e:
                     print(e)
+      
+      run(checkPoint,threads)
 
-      local_dir = os.path.dirname(__file__)
-      config_path = os.path.join(local_dir, 'config')
-      if checkPoint:
-            print('\nLoading from checkpoint {}'.format(checkPoint))
-            run_from_checkpoint(checkPoint)
-      else:
-            run(config_path,threads)
 
 if __name__ == '__main__':
       main(sys.argv[1:])
