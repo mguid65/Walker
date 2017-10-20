@@ -11,7 +11,6 @@ import sys
 import visualize
 import getopt
 
-
 env = gym.make('BiPedalWalker-v0')
 render = None
 evaluator = None
@@ -116,5 +115,3 @@ def main(argv):
 
 if __name__ == '__main__':
       main(sys.argv[1:])
-
-  

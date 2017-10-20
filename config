@@ -10,14 +10,14 @@ reset_on_extinction = True
 
 [DefaultGenome]
 # activation functions
-activation_default     = random
+activation_default     = tanh
 activation_mutate_rate = 0.25
-activation_options     = tanh sigmoid
+activation_options     = tanh relu sigmoid
 
 # node aggregation options
 aggregation_default     = sum
-aggregation_mutate_rate = 0.00
-aggregation_options     = sum 
+aggregation_mutate_rate = 0.05
+aggregation_options     = sum product max min maxabs median mean
 
 # node bias options
 bias_init_mean    = 0.0
@@ -33,8 +33,8 @@ compatibility_disjoint_coefficient = 1.0
 compatibility_weight_coefficient   = 0.5
 
 # connection add/remove rates
-conn_add_prob    = 0.5
-conn_delete_prob = 0.25
+conn_add_prob    = 0.99
+conn_delete_prob = 0.33
 
 # connection enable options
 enabled_default     = True
@@ -44,8 +44,8 @@ feed_forward        = True
 initial_connection  = full_direct
 
 # node add/remove rates
-node_add_prob    = 0.5
-node_delete_prob = 0.25
+node_add_prob    = 0.99
+node_delete_prob = 0.33
 
 # network parameters
 num_hidden  = 0
@@ -64,8 +64,8 @@ response_replace_rate = 0.0
 # connection weight options
 weight_init_mean    = 0.0
 weight_init_stdev   = 1.0
-weight_max_value    = 30
-weight_min_value    = -30
+weight_max_value    = 30.0
+weight_min_value    = -30.0
 weight_mutate_power = 0.5
 weight_mutate_rate  = 0.8
 weight_replace_rate = 0.1
