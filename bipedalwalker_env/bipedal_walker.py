@@ -256,6 +256,8 @@ class BipedalWalker(gym.Env):
             x2 = max( [p[0] for p in poly] )
             self.cloud_poly.append( (poly,x1,x2) )
 
+    #def _produceNNet(self,nnet):
+        
     def _reset(self):
         self._destroy()
         self.world.contactListener_bug_workaround = ContactDetector(self)
@@ -424,7 +426,7 @@ class BipedalWalker(gym.Env):
 
         done = False
         if self.game_over or pos[0] < 0:
-            reward -= 100
+            reward = -100
             done   = True
         if pos[0] > (TERRAIN_LENGTH-TERRAIN_GRASS)*TERRAIN_STEP:
             done   = True

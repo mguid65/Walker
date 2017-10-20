@@ -5,13 +5,13 @@
 [NEAT]
 fitness_criterion   = max
 fitness_threshold   = 300
-pop_size            = 100
+pop_size            = 1000
 reset_on_extinction = True
 
 [DefaultGenome]
 # activation functions
 activation_default     = tanh
-activation_mutate_rate = 0.05
+activation_mutate_rate = 0.25
 activation_options     = tanh relu sigmoid
 
 # node aggregation options
@@ -38,10 +38,10 @@ conn_delete_prob = 0.33
 
 # connection enable options
 enabled_default     = True
-enabled_mutate_rate = 0.1
+enabled_mutate_rate = 0.15
 
 feed_forward        = True
-initial_connection  = full
+initial_connection  = full_direct
 
 # node add/remove rates
 node_add_prob    = 0.99
@@ -71,13 +71,13 @@ weight_mutate_rate  = 0.8
 weight_replace_rate = 0.1
 
 [DefaultSpeciesSet]
-compatibility_threshold = 2.0
+compatibility_threshold = 2.5
 
 [DefaultStagnation]
 species_fitness_func = max
-max_stagnation       = 5
-species_elitism      = 1
+max_stagnation       = 100
+species_elitism      = 0
 
 [DefaultReproduction]
-elitism            = 1
-survival_threshold = 0.2
+elitism            = 0
+survival_threshold = 0.5
