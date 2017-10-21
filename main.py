@@ -1,4 +1,4 @@
-# author: Wilson Zhu, Christopher Schayer
+# author: Christopher Schayer, Wilson Zhu
 # the main execution file for the simulation
 
 # GOAL => must get 300 pts in 1600 time steps
@@ -9,12 +9,16 @@ import neat
 import os
 import sys
 import getopt
+import checkPointPlus
+import replayReporter
+from threading import Thread, Lock
 
 env = gym.make('BiPedalWalker-v0')
-render = None
 
 TIMESTEPS = 1600
 GENERATIONS = 1000
+
+mode = None 
 
 # this is the fitness function
 def eval_genome(genome, config):
@@ -29,37 +33,18 @@ def eval_genome(genome, config):
       output = nnet.activate(obs)
       obs, reward, done, info = env.step(output)
       fitness += reward
-      if done: break
+      if done: break 
     fitnesses.append(fitness)
   return sum(fitnesses) / len(fitnesses)
 
 def eval_genomes(genomes, config):
   best_genome = None
   for genome_id, genome in genomes:
+    eval_genome(genome, config)
     
-    genome.fitness = eval_genome(genome, config)
-    if best_genome is None or best_genome.fitness < genome.fitness:
-      best_genome = genome
-  print("Best performance of this generation: {}\n".format(best_genome.fitness))
-  if render:
-    depict(best_genome,config)
-    
-    #print(best_genome)
-
-
-def depict(genome, config):
-      nnet = neat.nn.RecurrentNetwork.create(genome,config)
-      obs = env.reset()
-      for time_step in range(TIMESTEPS):
-            env.render()
-            output = nnet.activate(obs)
-            obs, reward, done, info = env.step(output)
-            if done:
-                  env.reset()
-                  break
-
-
+  
 def run(checkPoint, threads=1):
+      
       evaluator = createEvaluator(threads)
       p = None
     
@@ -69,10 +54,16 @@ def run(checkPoint, threads=1):
             local_dir = os.path.dirname(__file__)
             config_path = os.path.join(local_dir, 'config')
             p = genNewPop(config_path,evaluator)
+            
       if p:
+        if mode != 'replay':
+          p.add_reporter(neat.StdOutReporter(True))
+          p.add_reporter(checkPointPlus.CheckpointerPlus())
+        else:
+          p.add_reporter(replayReporter.ReplayReporter())
+        #p.add_reporter(neat.Checkpointer(100, 10000))
         winner = p.run(evaluator, GENERATIONS)
-
-
+      
 def createEvaluator(thread):
       evaluator = None
   
@@ -91,8 +82,6 @@ def genNewPop(config_file,evaluator):
   
   # create the population & display progress
   p = neat.Population(config)
-  p.add_reporter(neat.StdOutReporter(True))
-  p.add_reporter(neat.Checkpointer(100, 10000))
   return p
   
      
@@ -102,13 +91,11 @@ def genFromCP(checkPoint,evaluator):
   print('\nLoading from checkpoint {}'.format(checkPoint))
   p = neat.Checkpointer.restore_checkpoint(checkPoint)
   #p.generation=1
-  p.add_reporter(neat.StdOutReporter(True))
-  p.add_reporter(neat.Checkpointer(100, 10000))
   return p
 
 def main(argv):
       
-      global render
+      global mode 
       threads = 1
       checkPoint = None
 
@@ -120,7 +107,7 @@ def main(argv):
       
       for opt, arg in opts:
             if opt == '-m':
-                  render = arg
+                  mode = arg
             elif opt == '-f':
                   checkPoint = arg
             elif opt == '-t':
