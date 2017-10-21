@@ -82,7 +82,6 @@ def genNewPop(config_file,evaluator):
   
   # create the population & display progress
   p = neat.Population(config)
-  
   return p
   
      
