@@ -41,9 +41,7 @@ def eval_genomes(genomes, config):
   best_genome = None
   for genome_id, genome in genomes:
     eval_genome(genome, config)
-    '''if best_genome is None or best_genome.fitness < genome.fitness:
-      best_genome = genome
-  print("Best performance of this generation: {}\n".format(best_genome.fitness))'''
+    
   
 def run(checkPoint, threads=1):
       
