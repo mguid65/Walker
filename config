@@ -1,4 +1,4 @@
-# author: Wilson Zhu
+# author: Wilson Zhu, Christopher Schayer
 # configuration file for the neural network
 
 [NEAT]
@@ -80,3 +80,4 @@ species_elitism      = 2
 [DefaultReproduction]
 elitism            = 2
 survival_threshold = 0.2
+
