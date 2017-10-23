@@ -11,6 +11,7 @@ import sys
 import getopt
 import checkPointPlus
 import replayReporter
+import nnetreporter
 from threading import Thread, Lock
 
 env = gym.make('BiPedalWalker-v0')
@@ -31,6 +32,7 @@ def eval_genome(genome, config):
     fitness = 0
     for time_step in range(TIMESTEPS):
       output = nnet.activate(obs)
+      
       obs, reward, done, info = env.step(output)
       fitness += reward
       if done: break 
@@ -40,7 +42,7 @@ def eval_genome(genome, config):
 def eval_genomes(genomes, config):
   best_genome = None
   for genome_id, genome in genomes:
-    eval_genome(genome, config)
+    genome.fitness = eval_genome(genome, config)
     
   
 def run(checkPoint, threads=1):
@@ -56,12 +58,12 @@ def run(checkPoint, threads=1):
             p = genNewPop(config_path,evaluator)
             
       if p:
+        p.add_reporter(nnetreporter.NNetReporter())
         if mode != 'replay':
           p.add_reporter(neat.StdOutReporter(True))
           p.add_reporter(checkPointPlus.CheckpointerPlus())
         else:
           p.add_reporter(replayReporter.ReplayReporter())
-        #p.add_reporter(neat.Checkpointer(100, 10000))
         winner = p.run(evaluator, GENERATIONS)
       
 def createEvaluator(thread):

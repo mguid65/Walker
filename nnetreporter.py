@@ -18,7 +18,7 @@ from neat.population import Population
 from neat.reporting import BaseReporter
 from neat.six_util import iteritems, itervalues
 
-class ReplayReporter(BaseReporter):
+class NNetReporter(BaseReporter):
     """
     A reporter class that performs checkpointing using `pickle`
     to save and restore populations (and other aspects of the simulation state).
@@ -45,54 +45,40 @@ class ReplayReporter(BaseReporter):
         self.TIMESTEPS = 1600
 
     def start_generation(self, generation):
-        print('Generating replay data from Population')
         self.current_generation = generation
-        pass
     
     def post_evaluate(self, config, population, species_set, bestGenome):
+        nodes = list(bestGenome.nodes)
+        connections = list(bestGenome.connections)
        
-        self.checkpoint_due = False
-        
-        '''for g in itervalues(population):   
-            if self.bestFitness is None or g.fitness > self.bestFitness:
-                self.bestFitness = g.fitness
-                self.best_population = population
-                self.best_species = species_set
-                self.best_genome = g
-                self.checkpoint_due = True
-        '''
+        #print(sorted(connections, key=lambda tup: (tup[0],tup[1])))
 
+        #print("BEST GENOME INFORMATION\n{}\n{}".format(sorted(list(bestGenome.nodes),),list(bestGenome.connections)))
         self.depict(bestGenome,config)
-    
-        '''
-        if checkpoint_due:
-            self.save_checkpoint(config, population, species_set, self.current_generation)
-            self.last_generation_checkpoint = self.current_generation
-        '''
+        
             
     def end_generation(self, config, population, species_set):
-       pass 
-       
+        pass
+        
 
     def depict(self,genome, config):
       env = gym.make('BiPedalWalker-v0')
-      print('running replay')
+      
       nnet = neat.nn.FeedForwardNetwork.create(genome,config)
+      print("Input Nodes: {}\nOutput Nodes: {}".format(nnet.input_nodes,nnet.output_nodes))
+      print("nNode Evals")
+      for items in nnet.node_evals:
+          print(items)
+          print("\n\n")
+      
+      print('Action List\n')
       obs = env.reset()
       for time_step in range(self.TIMESTEPS):
-            env.render()
             output = nnet.activate(obs)
+            print("Output 1:%.4f Output 2:%.4f Output 3:%.4f Output 4:%.4f"%(round(output[0],4),round(output[1],4),round(output[2],4),round(output[3],4)))
             obs, reward, done, info = env.step(output)
             if done:
                   env.reset()
                   break
-      quit()
+      print("")
         
-    @staticmethod
-    def restore_checkpoint(filename):
-        """Resumes the simulation from a previous saved point."""
-        with gzip.open(filename) as f:
-            generation, config, population, species_set, rndstate = pickle.load(f)
-            random.setstate(rndstate)
-            return Population(config, (population, species_set, generation))
-    

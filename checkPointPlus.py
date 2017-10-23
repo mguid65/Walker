@@ -48,25 +48,33 @@ class CheckpointerPlus(BaseReporter):
     def post_evaluate(self, config, population, species_set, bestGenome):
         self.checkpoint_due = False
         
-        for g in itervalues(population):   
+        if self.best_genome is None or bestGenome.fitness > self.bestFitness:
+            self.best_genome = bestGenome
+            self.best_population = population 
+            self.best_species = species_set
+            self.checkpoint_due = True
+            self.bestFitness = bestGenome.fitness
+            
+            
+        '''for g in itervalues(population):   
             if self.bestFitness is None or g.fitness > self.bestFitness:
                 self.bestFitness = g.fitness
                 self.best_population = population
                 self.best_species = species_set
                 self.best_genome = g
-                self.checkpoint_due = True
+                self.checkpoint_due = True'''
             
     def end_generation(self, config, population, species_set):
         if self.checkpoint_due:
             #self.save_checkpoint(config, population, species_set, self.current_generation)
             self.save_checkpoint(config,self.best_population,self.best_species,self.current_generation)
-            self.last_generation_checkpoint = self.current_generation
+            
             
 
     def save_checkpoint(self, config, population, species_set, generation):
         """ Save the current simulation state. """
         filename = '{0}{1}'.format(self.filename_prefix,generation)
-        print("New Best Fitness: {0} Saving checkpoint to {1}".format(self.bestFitness,filename))
+        print("New Best Fitness: {0} Saving checkpoint to {1}".format(self.best_genome.fitness,filename))
 
         with gzip.open(filename, 'w', compresslevel=5) as f:
             data = (generation, config, population, species_set, random.getstate())
