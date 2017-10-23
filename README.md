@@ -8,6 +8,8 @@
 - install pybox2d thru conda -> conda install -c https://conda.anaconda.org/kne pybox2d
 - install openai's gym thru pip -> pip install --user gym
 - install neat thru pip -> pip install --user neat-python
+- run the simulation -> python main.py -t <numThreads>
+- run the replay after a checkpoint is created -> python main.py -m replay -f <checkpointfilename>
 
 ### todo:
 - ~~abstract: due Oct. 9th~~
