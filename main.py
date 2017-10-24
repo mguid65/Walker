@@ -117,6 +117,5 @@ def main(argv):
 
     run(checkPoint, threads)
 
-
 if __name__ == '__main__':
     main(sys.argv[1:])
