@@ -3,11 +3,9 @@
 
 import gym
 from bipedalwalker_env import *
+from checkpoint import *
 import neat
-import os
-import sys
-import getopt
-import checkPointPlus
+import os, sys, getopt
 import replayReporter
 import nnetreporter
 from threading import Thread, Lock
@@ -58,7 +56,7 @@ def run(checkPoint, threads=1):
         p.add_reporter(nnetreporter.NNetReporter())
         if mode != 'replay':
             p.add_reporter(neat.StdOutReporter(True))
-            p.add_reporter(checkPointPlus.CheckpointerPlus())
+            p.add_reporter(CheckpointerPlus())
         else:
             p.add_reporter(replayReporter.ReplayReporter())
         winner = p.run(evaluator, GENERATIONS)
