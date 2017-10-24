@@ -1,11 +1,11 @@
-"""Uses `pickle` to save and restore populations (and other aspects of the simulation state)."""
+# author: Christopher Schayer
+# a custom checkpointer that is based on the best genome encountered
+
 from __future__ import print_function
 
 import gzip
 import random
 import time
-
-
 
 try:
     import cPickle as pickle # pylint: disable=import-error
