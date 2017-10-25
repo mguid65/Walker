@@ -5,6 +5,7 @@
 
 ### instructions to set up:
 - setup a conda env with python3.4 and activate
+  - create conda environment -> conda create -n py34 python=3.4
 - install pybox2d thru conda -> conda install -c https://conda.anaconda.org/kne pybox2d
 - install openai's gym thru pip -> pip install --user gym
 - install neat thru pip -> pip install --user neat-python
