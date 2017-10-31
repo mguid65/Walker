@@ -11,7 +11,6 @@ import neat
 import os, sys, getopt
 from threading import Thread, Lock
 
-
 TIMESTEPS = 1600
 GENERATIONS = 1000
 mode = None
@@ -83,7 +82,6 @@ def load_from_checkpoint(cp, evaluator):
   print('\nLoading from checkpoint {}'.format(cp))
   p = neat.Checkpointer.restore_checkpoint(cp)
   return p
-
 
 def main(argv):
   global mode
