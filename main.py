@@ -56,7 +56,6 @@ def run(cp, threads=1):
       p.add_reporter(replay())
     winner = p.run(evaluator, GENERATIONS)
 
-
 def create_evaluator(thread):
   evaluator = None
   if thread > 1:
@@ -66,7 +65,6 @@ def create_evaluator(thread):
     evaluator = eval_genomes
   return evaluator
 
-
 def new_population(config_file, evaluator):
   # load the configuration
   print('\nGenerating new population.')
@@ -75,7 +73,6 @@ def new_population(config_file, evaluator):
   # create the population & display progress
   p = neat.Population(config)
   return p
-
 
 # load population from checkpoint
 def load_from_checkpoint(cp, evaluator):

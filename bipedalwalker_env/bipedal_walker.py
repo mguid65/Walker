@@ -255,8 +255,6 @@ class BipedalWalker(gym.Env):
             x1 = min( [p[0] for p in poly] )
             x2 = max( [p[0] for p in poly] )
             self.cloud_poly.append( (poly,x1,x2) )
-
-    #def _produceNNet(self,nnet):
         
     def _reset(self):
         self._destroy()
@@ -420,8 +418,8 @@ class BipedalWalker(gym.Env):
             reward = shaping - self.prev_shaping
         self.prev_shaping = shaping
 
-        # for a in action:
-        #     reward -= 0.00035 * MOTORS_TORQUE * np.clip(np.abs(a), 0, 1)
+        for a in action:
+            reward -= 0.00035 * MOTORS_TORQUE * np.clip(np.abs(a), 0, 1)
             # normalized to about -50.0 using heuristic, more optimal agent should spend less
 
         done = False
