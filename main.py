@@ -20,7 +20,7 @@ env = gym.make('BiPedalWalker-v0')
 # this is the fitness function
 def eval_genome(genome, config):
   nnet = neat.nn.FeedForwardNetwork.create(genome, config)
-  #nnet = neat.nn.RecurrentNetwork.create(genome,config)
+  # nnet = neat.nn.RecurrentNetwork.create(genome,config)
   obs = env.reset()
   fitness = 0
   for time_step in range(TIMESTEPS):
@@ -48,7 +48,7 @@ def run(cp, threads=1):
     p = genNewPop(config_path, evaluator)
   
   if p:
-    p.add_reporter(nnetreporter.nnetreporter())
+    p.add_reporter(nnetreporter())
     if mode != 'replay':
       p.add_reporter(neat.StdOutReporter(True))
       p.add_reporter(checkpointer())
