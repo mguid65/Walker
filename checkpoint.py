@@ -5,87 +5,44 @@ from __future__ import print_function
 
 import gzip
 import random
-import time
-
 try:
-    import cPickle as pickle # pylint: disable=import-error
+  import cPickle as pickle
 except ImportError:
-    import pickle # pylint: disable=import-error
+  import pickle
 
 from neat.population import Population
 from neat.reporting import BaseReporter
-from neat.six_util import iteritems, itervalues
 
-class CheckpointerPlus(BaseReporter):
-    """
-    A reporter class that performs checkpointing using `pickle`
-    to save and restore populations (and other aspects of the simulation state).
-    """
-    def __init__(self,filename_prefix='neat-checkpoint-'):
-        """
-        Saves the current state (at the end of a generation) every ``generation_interval`` generations or
-        ``time_interval_seconds``, whichever happens first.
-
-        :param generation_interval: If not None, maximum number of generations between save intervals
-        :type generation_interval: int or None
-        :param time_interval_seconds: If not None, maximum number of seconds between checkpoint attempts
-        :type time_interval_seconds: float or None
-        :param str filename_prefix: Prefix for the filename (the end will be the generation number)
-        """
-        
-        self.filename_prefix = filename_prefix
-        self.bestFitness = None
-        self.current_generation = None
-        self.best_genome = None
-        self.best_population = None
-        self.best_species = None
-        self.checkpoint_due = False
-        
-
-    def start_generation(self, generation):
-        self.current_generation = generation
+class checkpointer(BaseReporter):
+  def __init__(self, filename_prefix='neat-checkpoint-'):
+    self.filename_prefix = filename_prefix
+    self.current_generation = None
+    self.best_genome = None
+    self.best_fitness = None
+    self.population = None
+    self.species = None
+    self.checkpoint_due = False
     
-    def post_evaluate(self, config, population, species_set, bestGenome):
-        self.checkpoint_due = False
-        
-        if self.best_genome is None or bestGenome.fitness > self.bestFitness:
-            self.best_genome = bestGenome
-            self.best_population = population 
-            self.best_species = species_set
-            self.checkpoint_due = True
-            self.bestFitness = bestGenome.fitness
-            
-            
-        '''for g in itervalues(population):   
-            if self.bestFitness is None or g.fitness > self.bestFitness:
-                self.bestFitness = g.fitness
-                self.best_population = population
-                self.best_species = species_set
-                self.best_genome = g
-                self.checkpoint_due = True'''
-            
-    def end_generation(self, config, population, species_set):
-        if self.checkpoint_due:
-            #self.save_checkpoint(config, population, species_set, self.current_generation)
-            self.save_checkpoint(config,self.best_population,self.best_species,self.current_generation)
-            
-            
-
-    def save_checkpoint(self, config, population, species_set, generation):
-        """ Save the current simulation state. """
-        filename = '{0}{1}'.format(self.filename_prefix,generation)
-        print("New Best Fitness: {0} Saving checkpoint to {1}".format(self.best_genome.fitness,filename))
-
-        with gzip.open(filename, 'w', compresslevel=5) as f:
-            data = (generation, config, population, species_set, random.getstate())
-            pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-    '''
-    @staticmethod
-    def restore_checkpoint(filename):
-        """Resumes the simulation from a previous saved point."""
-        with gzip.open(filename) as f:
-            generation, config, population, species_set, rndstate = pickle.load(f)
-            random.setstate(rndstate)
-            return Population(config, (population, species_set, generation))
-    '''
+  def start_generation(self, generation):
+    self.current_generation = generation
     
+  def post_evaluate(self, config, population, species_set, best_genome):
+    self.checkpoint_due = False
+    
+    if self.best_genome is None or best_genome.fitness > self.best_fitness:
+      self.best_genome = best_genome
+      self.population = population
+      self.species = species_set
+      self.checkpoint_due = True
+      self.best_fitness = best_genome.fitness
+            
+  def end_generation(self, config): # params deleted: population, species_set
+    if self.checkpoint_due:
+      self.save_checkpoint(config, self.population, self.species, self.current_generation)
+  
+  def save_checkpoint(self, config, population, species_set, generation):
+    filename = '{0}{1}'.format(self.filename_prefix, generation)
+    print("Top fitness found with a value of {0}. Saving checkpoint to {1}".format(self.best_genome.fitness, filename))
+    with gzip.open(filename, 'w', compresslevel=5) as f:
+      data = (generation, config, population, species_set, random.getstate())
+      pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)

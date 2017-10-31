@@ -21,8 +21,8 @@
 - ~~abstract: due Oct. 9th~~
 - ~~setup neural network~~
 - ~~rename this repo to something else~~
-- format Chris's ugly code
-- tweak neural network to pass condition
+- ~~format Chris's ugly code~~
+- ~~tweak neural network to pass condition~~
 - start experimental phase (compare to other neural networks)
 - write up report
 - make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
