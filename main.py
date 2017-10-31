@@ -36,7 +36,7 @@ def eval_genomes(genomes, config):
     genome.fitness = eval_genome(genome, config)
 
 def run(cp, threads=1):
-  evaluator = createEvaluator(threads)
+  evaluator = create_evaluator(threads)
   
   # initialize the population
   p = None
@@ -45,7 +45,7 @@ def run(cp, threads=1):
   else:
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config')
-    p = genNewPop(config_path, evaluator)
+    p = new_population(config_path, evaluator)
   
   if p:
     p.add_reporter(nnetreporter())
@@ -54,10 +54,10 @@ def run(cp, threads=1):
       p.add_reporter(checkpointer())
     else:
       p.add_reporter(replay())
-      winner = p.run(evaluator, GENERATIONS)
+    winner = p.run(evaluator, GENERATIONS)
 
 
-def createEvaluator(thread):
+def create_evaluator(thread):
   evaluator = None
   if thread > 1:
     pe = neat.ParallelEvaluator(thread, eval_genome)
@@ -67,7 +67,7 @@ def createEvaluator(thread):
   return evaluator
 
 
-def genNewPop(config_file, evaluator):
+def new_population(config_file, evaluator):
   # load the configuration
   print('\nGenerating new population.')
   config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
@@ -86,7 +86,7 @@ def load_from_checkpoint(cp, evaluator):
 def main(argv):
   global mode
   threads = 1
-  checkPoint = None
+  cp_flag = None
   
   try:
     opts, args = getopt.getopt(argv, "m:f:t:")
@@ -98,13 +98,13 @@ def main(argv):
     if opt == '-m':
       mode = arg
     elif opt == '-f':
-      checkPoint = arg
+      cp_flag = arg
     elif opt == '-t':
       try:
         threads = int(arg)
       except TypeError as e:
         print(e)
-  run(checkPoint, threads)
+  run(cp_flag, threads)
 
 if __name__ == '__main__':
   main(sys.argv[1:])
