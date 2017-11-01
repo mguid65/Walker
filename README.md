@@ -13,8 +13,8 @@
 ### how to run:
 - how to run -> python main.py
 - optional arguments:
-  - run in parallel: -t <# of threads>  **note: this largely depends on how many cores your cpu has**
-  - run from checkpoint: -f <name of checkpoint file>
+  - run in parallel: -t [# of threads]  **note: this largely depends on how many cores your cpu has**
+  - run from checkpoint: -f [path of the checkpoint file] **note: you need this if you want to use the replay functionality**
   - render: -m replay
 
 ### todo:
