@@ -36,7 +36,7 @@ class checkpointer(BaseReporter):
       self.checkpoint_due = True
       self.best_fitness = best_genome.fitness
             
-  def end_generation(self, config): # params deleted: population, species_set
+  def end_generation(self, config, population, species_set):
     if self.checkpoint_due:
       self.save_checkpoint(config, self.population, self.species, self.current_generation)
   
