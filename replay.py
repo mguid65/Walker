@@ -4,17 +4,17 @@
 from __future__ import print_function
 
 import gym
-import neat
+import neat_new
 try:
   import cPickle as pickle
 except ImportError:
   import pickle
 
-from neat.population import Population
-from neat.reporting import BaseReporter
+from neat_new.population import Population
+from neat_new.reporting import BaseReporter
 
 class replay(BaseReporter):
-  def __init__(self, filename_prefix='neat-checkpoint-'):
+  def __init__(self, filename_prefix='neat_new-checkpoint-'):
     self.filename_prefix = filename_prefix
     self.current_generation = None
     self.TIMESTEPS = 1600
@@ -33,7 +33,7 @@ class replay(BaseReporter):
   def render(self,genome, config):
     env = gym.make('BiPedalWalker-v0')
     print('Running replay')
-    nnet = neat.nn.FeedForwardNetwork.create(genome,config)
+    nnet = neat_new.nn.FeedForwardNetwork.create(genome,config)
     obs = env.reset()
     for time_step in range(self.TIMESTEPS):
       env.render()

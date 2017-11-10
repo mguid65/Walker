@@ -10,11 +10,11 @@ try:
 except ImportError:
   import pickle
 
-from neat.population import Population
-from neat.reporting import BaseReporter
+from neat_new.population import Population
+from neat_new.reporting import BaseReporter
 
 class checkpointer(BaseReporter):
-  def __init__(self, filename_prefix='neat-checkpoint-'):
+  def __init__(self, filename_prefix='neat_new-checkpoint-'):
     self.filename_prefix = filename_prefix
     self.current_generation = None
     self.best_genome = None
@@ -35,14 +35,16 @@ class checkpointer(BaseReporter):
       self.species = species_set
       self.checkpoint_due = True
       self.best_fitness = best_genome.fitness
-            
-  def end_generation(self, config): # params deleted: population, species_set
+    
     if self.checkpoint_due:
       self.save_checkpoint(config, self.population, self.species, self.current_generation)
+            
+  def end_generation(self, config,population, species_set): # params deleted: population, species_set
+    pass
   
   def save_checkpoint(self, config, population, species_set, generation):
     filename = '{0}{1}'.format(self.filename_prefix, generation)
-    print("Top fitness found with a value of {0}. Saving checkpoint to {1}".format(self.best_genome.fitness, filename))
+    #print("Top fitness found with a value of {0}. Saving checkpoint to {1}".format(self.best_genome.fitness, filename))
     with gzip.open(filename, 'w', compresslevel=5) as f:
       data = (generation, config, population, species_set, random.getstate())
       pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)

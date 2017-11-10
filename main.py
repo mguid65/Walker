@@ -7,7 +7,7 @@ from bipedalwalker_env import *
 from checkpoint import *
 from nnetreporter import *
 from replay import *
-import neat
+import neat_new
 import os, sys, getopt
 from threading import Thread, Lock
 
@@ -19,8 +19,8 @@ env = gym.make('BiPedalWalker-v0')
 
 # this is the fitness function
 def eval_genome(genome, config):
-  nnet = neat.nn.FeedForwardNetwork.create(genome, config)
-  # nnet = neat.nn.RecurrentNetwork.create(genome,config)
+  nnet = neat_new.nn.FeedForwardNetwork.create(genome, config)
+  # nnet = neat_new.nn.RecurrentNetwork.create(genome,config)
   obs = env.reset()
   fitness = 0
   for time_step in range(TIMESTEPS):
@@ -50,16 +50,19 @@ def run(cp, threads=1):
   if p:
     p.add_reporter(nnetreporter())
     if mode != 'replay':
-      p.add_reporter(neat.StdOutReporter(True))
+      p.add_reporter(neat_new.StdOutReporter(True))
       p.add_reporter(checkpointer())
     else:
       p.add_reporter(replay())
     winner = p.run(evaluator, GENERATIONS)
+ 
+    
+    
 
 def create_evaluator(thread):
   evaluator = None
   if thread > 1:
-    pe = neat.ParallelEvaluator(thread, eval_genome)
+    pe = neat_new.ParallelEvaluator(thread, eval_genome)
     evaluator = pe.evaluate
   else:
     evaluator = eval_genomes
@@ -67,17 +70,17 @@ def create_evaluator(thread):
 
 def new_population(config_file, evaluator):
   # load the configuration
-  print('\nGenerating new population.')
-  config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
+  #print('\nGenerating new population.')
+  config = neat_new.Config(neat_new.DefaultGenome, neat_new.DefaultReproduction, neat_new.DefaultSpeciesSet, neat_new.DefaultStagnation, config_file)
   
   # create the population & display progress
-  p = neat.Population(config)
+  p = neat_new.Population(config)
   return p
 
 # load population from checkpoint
 def load_from_checkpoint(cp, evaluator):
-  print('\nLoading from checkpoint {}'.format(cp))
-  p = neat.Checkpointer.restore_checkpoint(cp)
+  #print('\nLoading from checkpoint {}'.format(cp))
+  p = neat_new.Checkpointer.restore_checkpoint(cp)
   return p
 
 def main(argv):
@@ -101,7 +104,8 @@ def main(argv):
         threads = int(arg)
       except TypeError as e:
         print(e)
-  run(cp_flag, threads)
+  winner_genome = run(cp_flag, threads)
+
 
 if __name__ == '__main__':
   main(sys.argv[1:])

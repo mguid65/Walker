@@ -53,11 +53,11 @@ HULL_POLY =[
 LEG_DOWN = -8/SCALE
 LEG_W, LEG_H = 8/SCALE, 34/SCALE
 
-VIEWPORT_W = 600
+VIEWPORT_W = 700
 VIEWPORT_H = 400
 
 TERRAIN_STEP   = 14/SCALE
-TERRAIN_LENGTH = 200     # in steps
+TERRAIN_LENGTH = 500     # in steps
 TERRAIN_HEIGHT = VIEWPORT_H/SCALE/4
 TERRAIN_GRASS    = 10    # low long are grass spots, in steps
 TERRAIN_STARTPAD = 20    # in steps
@@ -426,8 +426,8 @@ class BipedalWalker(gym.Env):
         if self.game_over or pos[0] < 0:
             reward = -100
             done   = True
-        if pos[0] > (TERRAIN_LENGTH-TERRAIN_GRASS)*TERRAIN_STEP:
-            done   = True
+        #if pos[0] > (TERRAIN_LENGTH-TERRAIN_GRASS)*TERRAIN_STEP:
+        #    done   = True
         return np.array(state), reward, done, {}
 
     def _render(self, mode='human', close=False):
