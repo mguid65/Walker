@@ -13,8 +13,8 @@
 ### how to run:
 - how to run -> python main.py
 - optional arguments:
-  - run in parallel: -t <# of threads>  **note: this largely depends on how many cores your cpu has**
-  - run from checkpoint: -f <name of checkpoint file>
+  - run in parallel: -t [# of threads]  **note: this largely depends on how many cores your cpu has**
+  - run from checkpoint: -f [path of the checkpoint file] **note: you need this if you want to use the replay functionality**
   - render: -m replay
 
 ### todo:
@@ -23,6 +23,7 @@
 - ~~rename this repo to something else~~
 - ~~format Chris's ugly code~~
 - ~~tweak neural network to pass condition~~
-- start experimental phase (compare to other neural networks)
+- write a logger for the program
+- start experimental phase (compare to other neural networks) -> WIP
 - write up report
 - make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
