@@ -4,17 +4,17 @@
 from __future__ import print_function
 
 import gym
-import neat_new
+import neat
 try:
   import cPickle as pickle
 except ImportError:
   import pickle
 
-from neat_new.population import Population
-from neat_new.reporting import BaseReporter
+from neat.population import Population
+from neat.reporting import BaseReporter
 
 class nnetreporter(BaseReporter):
-  def __init__(self, filename_prefix='neat_new-checkpoint-'):
+  def __init__(self, filename_prefix='neat-checkpoint-'):
     self.filename_prefix = filename_prefix # rm this for later testing
     self.current_generation = None
     self.TIMESTEPS = 1600
@@ -34,7 +34,7 @@ class nnetreporter(BaseReporter):
     env = gym.make('BiPedalWalker-v0')
 
     # construct the network using the genome and print out the structure of the network
-    nnet = neat_new.nn.FeedForwardNetwork.create(genome, config)
+    nnet = neat.nn.FeedForwardNetwork.create(genome, config)
     print("Input Nodes: {}\nOutput Nodes: {}".format(nnet.input_nodes, nnet.output_nodes))
     print("nNode Evals")
     for items in nnet.node_evals:
