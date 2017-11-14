@@ -23,7 +23,9 @@
 - ~~rename this repo to something else~~
 - ~~format Chris's ugly code~~
 - ~~tweak neural network to pass condition~~
-- write a logger for the program
+- ~~write a logger for the program~~
 - start experimental phase (compare to other neural networks) -> WIP
+  - unconnected; sigmoid -> currently running
+  - unconnected; tanh
 - write up report
 - make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
