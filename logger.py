@@ -5,11 +5,12 @@ from neat.population import Population
 from neat.reporting import BaseReporter
 from neat.math_util import mean
 from neat.six_util import itervalues, iterkeys
-
+import csv 
 class logger(BaseReporter):
   def __init__(self):
     self.generation = None
-    self.file = open("data.csv", "w")
+
+     
     
   def start_generation(self, generation):
     self.generation = generation
@@ -18,12 +19,18 @@ class logger(BaseReporter):
     pass
     
   def post_evaluate(self, config, population, species, best_genome):
+    
     fitnesses = [c.fitness for c in itervalues(population)]
     fit_mean = mean(fitnesses)  
     species_ids = list(iterkeys(species.species))
     for i in species_ids:
       s = species.species[i]
-      self.file.write("{}, {}, {}, {}\n".format(self.generation, i, s.fitness, fit_mean))
+     
+
+      with open("data.csv", "a") as csv_file:
+        writer = csv.writer(csv_file, delimiter=',')
+        line=(str(self.generation), str(i), str(s.fitness), str(fit_mean))
+        writer.writerow(line)
       
   def complete_extinction(self):
     print('All species extinct.')
