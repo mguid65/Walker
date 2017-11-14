@@ -3,6 +3,8 @@
 
 from neat.population import Population
 from neat.reporting import BaseReporter
+from neat.math_util import mean
+from neat.six_util import itervalues, iterkeys
 
 class logger(BaseReporter):
   def __init__(self):
@@ -10,7 +12,7 @@ class logger(BaseReporter):
     self.file = open("data.csv", "w")
     
   def start_generation(self, generation):
-    self.generation = generations
+    self.generation = generation
   
   def end_generation(self, config, population, species_set):
     pass
