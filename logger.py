@@ -22,8 +22,8 @@ class logger(BaseReporter):
     fit_mean = mean(fitnesses)  
     species_ids = list(iterkeys(species.species))
     for i in species_ids:
-      species = species.species[i]
-      self.file.write("{}, {}, {}, {}\n".format(self.generation, i, species.fitness, fit_mean))
+      s = species.species[i]
+      self.file.write("{}, {}, {}, {}\n".format(self.generation, i, s.fitness, fit_mean))
       
   def complete_extinction(self):
     print('All species extinct.')
