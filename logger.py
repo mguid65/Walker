@@ -35,4 +35,4 @@ class logger(BaseReporter):
     print("\nSpecies {0} with {1} members is stagnated: removing it".format(sid, len(species.members)))
 
   def info(self, msg):
-    print(msg)
+    pass
