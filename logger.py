@@ -24,12 +24,7 @@ class logger(BaseReporter):
     for i in species_ids:
       s = species.species[i]
       self.log(self.generation, i, s.fitness, fit_mean)
-      
-      #with open("data.csv", "a") as csv_file:
-        #writer = csv.writer(csv_file, delimiter=',')
-        #line=(str(self.generation), str(i), str(s.fitness), str(fit_mean))
-        #writer.writerow(line)
-      
+
   def complete_extinction(self):
     print('All species extinct.')
     

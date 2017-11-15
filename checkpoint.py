@@ -36,7 +36,7 @@ class checkpointer(BaseReporter):
       self.species = species_set
       self.best_fitness = best_genome.fitness
       self.save_checkpoint(config, self.population, self.species, self.current_generation)
-      visualize.draw_net(config,self.best_genome,view=True,filename='nnet_{}.gv'.format(self.current_generation))
+      visualize.draw_net(config, self.best_genome, view=False, filename='nnet_{}.gv'.format(self.current_generation))
 
             
   def end_generation(self, config, population, species_set):
