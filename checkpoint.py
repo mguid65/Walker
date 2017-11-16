@@ -12,33 +12,28 @@ except ImportError:
 
 from neat.population import Population
 from neat.reporting import BaseReporter
-import visualize
 
 class checkpointer(BaseReporter):
-  def __init__(self, filename_prefix='neat-checkpoint-'):
+  def __init__(self, filename_prefix='neat-checkpoint-', interval=10):
     self.filename_prefix = filename_prefix
     self.current_generation = None
     self.best_genome = None
     self.best_fitness = None
     self.population = None
     self.species = None
-
+    self.interval = interval
     
   def start_generation(self, generation):
     self.current_generation = generation
     
   def post_evaluate(self, config, population, species_set, best_genome):
-
-    
-    if self.best_genome is None or best_genome.fitness > self.best_fitness:
+    if self.best_genome is None or best_genome.fitness > self.best_fitness or self.current_generation % self.interval == 0:
       self.best_genome = best_genome
       self.population = population
       self.species = species_set
       self.best_fitness = best_genome.fitness
       self.save_checkpoint(config, self.population, self.species, self.current_generation)
-      visualize.draw_net(config, self.best_genome, view=False, filename='nnet_{}.gv'.format(self.current_generation))
-
-            
+      
   def end_generation(self, config, population, species_set):
     pass
   
