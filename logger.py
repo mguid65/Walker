@@ -5,7 +5,7 @@ from neat.population import Population
 from neat.reporting import BaseReporter
 from neat.math_util import mean
 from neat.six_util import itervalues, iterkeys
-import csv
+import csv, visualize
 
 class logger(BaseReporter):
   def __init__(self):
@@ -21,9 +21,13 @@ class logger(BaseReporter):
     fitnesses = [c.fitness for c in itervalues(population)]
     fit_mean = mean(fitnesses)  
     species_ids = list(iterkeys(species.species))
+    best_species = None
     for i in species_ids:
       s = species.species[i]
+      if best_species is None or s.fitness > best_species.fitness:
+        best_species = s
       self.log(self.generation, i, s.fitness, fit_mean)
+    visualize.draw_net(config, self.best_genome, view=False, filename='nnet_{}.gv'.format(self.current_generation))
 
   def complete_extinction(self):
     print('All species extinct.')
