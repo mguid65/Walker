@@ -13,7 +13,7 @@ import os, sys, getopt
 from threading import Thread, Lock
 
 TIMESTEPS = 1600
-GENERATIONS = 1000
+GENERATIONS = 6000
 mode = None
 
 env = gym.make('BiPedalWalker-v0')
