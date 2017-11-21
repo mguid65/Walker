@@ -10,24 +10,26 @@ import csv, visualize
 class logger(BaseReporter):
   def __init__(self):
     self.generation = None
-    
+
   def start_generation(self, generation):
     self.generation = generation
-  
+
   def end_generation(self, config, population, species_set):
     pass
-  
-  def post_evaluate(self, config, population, species, best_genome):  
+
+  def post_evaluate(self, config, population, species, best_genome):
     fitnesses = [c.fitness for c in itervalues(population)]
-    fit_mean = mean(fitnesses)  
+    fit_mean = mean(fitnesses)
     species_ids = list(iterkeys(species.species))
     best_species = None
     for i in species_ids:
       s = species.species[i]
-      if best_species is None or s.fitness > best_species.fitness:
-        best_species = s
       self.log(self.generation, i, s.fitness, fit_mean)
-    visualize.draw_net(config, best_genome, view=False, filename='nnet_{}.gv'.format(self.generation))
+      best_genome = None
+      for g in itervalues(s.members):
+        if best_genome is None or (g.fitness > best_genome.fitness):
+          best_genome = g
+      visualize.draw_net(config, best_genome, view=False, filename='nnet_{}_{}.gv'.format(self.generation, i))
 
   def complete_extinction(self):
     print('All species extinct.')

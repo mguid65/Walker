@@ -14,7 +14,7 @@ from neat.population import Population
 from neat.reporting import BaseReporter
 
 class checkpointer(BaseReporter):
-  def __init__(self, filename_prefix='neat-checkpoint-', interval=10):
+  def __init__(self, filename_prefix='neat-checkpoint-', interval=50):
     self.filename_prefix = filename_prefix
     self.current_generation = None
     self.best_genome = None
