@@ -27,7 +27,7 @@ class logger(BaseReporter):
       if best_species is None or s.fitness > best_species.fitness:
         best_species = s
       self.log(self.generation, i, s.fitness, fit_mean)
-    visualize.draw_net(config, self.best_genome, view=False, filename='nnet_{}.gv'.format(self.current_generation))
+    visualize.draw_net(config, best_genome, view=False, filename='nnet_{}.gv'.format(self.generation))
 
   def complete_extinction(self):
     print('All species extinct.')
