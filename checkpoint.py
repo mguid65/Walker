@@ -27,12 +27,14 @@ class checkpointer(BaseReporter):
     self.current_generation = generation
     
   def post_evaluate(self, config, population, species_set, best_genome):
-    if self.best_genome is None or best_genome.fitness > self.best_fitness or self.current_generation % self.interval == 0:
+    if self.best_genome is None or best_genome.fitness > self.best_fitness:
       self.best_genome = best_genome
       self.population = population
       self.species = species_set
       self.best_fitness = best_genome.fitness
       self.save_checkpoint(config, self.population, self.species, self.current_generation)
+    elif self.current_generation % self.interval == 0:
+      self.save_checkpoint(config, population, species_set, self.current_generation)
       
   def end_generation(self, config, population, species_set):
     pass

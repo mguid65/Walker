@@ -21,7 +21,7 @@ class logger(BaseReporter):
     fitnesses = [c.fitness for c in itervalues(population)]
     fit_mean = mean(fitnesses)
     species_ids = list(iterkeys(species.species))
-    best_species = None
+    
     for i in species_ids:
       s = species.species[i]
       self.log(self.generation, i, s.fitness, fit_mean)
@@ -29,7 +29,7 @@ class logger(BaseReporter):
       for g in itervalues(s.members):
         if best_genome is None or (g.fitness > best_genome.fitness):
           best_genome = g
-      visualize.draw_net(config, best_genome, view=False, filename='nnet_{}_{}.gv'.format(self.generation, i))
+      
 
   def complete_extinction(self):
     print('All species extinct.')

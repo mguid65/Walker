@@ -33,27 +33,52 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
   dot = graphviz.Digraph(format=fmt, node_attr=node_attrs)
   
   inputs = set()
-  for k in config.genome_config.input_keys:
-    inputs.add(k)
-    name = node_names.get(k, str(k))
-    input_attrs = {'style': 'filled', 'shape': 'box'}
-    input_attrs['fillcolor'] = node_colors.get(k, 'lightgray')
-    dot.node(name, _attributes=input_attrs)
-    
   outputs = set()
-  for k in config.genome_config.output_keys:
-    outputs.add(k)
-    name = node_names.get(k, str(k))
-    node_attrs = {'style': 'filled'}
-    node_attrs['fillcolor'] = node_colors.get(k, 'lightblue')
-    dot.node(name, _attributes=node_attrs)
-        
+  
   if prune_unused:
-    connections = set()
+    nodes = []
     for cg in genome.connections.values():
       if cg.enabled or show_disabled:
-        connections.add((cg.in_node_id, cg.out_node_id))
+        ikey, okey = cg.key
+        nodes.append(ikey)
+        nodes.append(okey)
+
+    used_nodes = set(nodes)
+    
+    for i in used_nodes:
+      if i < 0:
+        inputs.add(i)
+        name = node_names.get(i, str(i))
+        input_attrs = {'style': 'filled', 'shape': 'box'}
+        input_attrs['fillcolor'] = node_colors.get(i, 'lightgray')
+        dot.node(name, _attributes=input_attrs)
+      elif i >= 0 and i <= 3:
+        outputs.add(i)
+        name = node_names.get(i, str(i))
+        node_attrs = {'style': 'filled'}
+        node_attrs['fillcolor'] = node_colors.get(i, 'lightblue')
+        dot.node(name, _attributes=node_attrs)
+
+  else:  
+    for k in config.genome_config.input_keys:
+      inputs.add(k)
+      name = node_names.get(k, str(k))
+      input_attrs = {'style': 'filled', 'shape': 'box'}
+      input_attrs['fillcolor'] = node_colors.get(k, 'lightgray')
+      dot.node(name, _attributes=input_attrs)
+      
+    outputs = set()
+    for k in config.genome_config.output_keys:
+      outputs.add(k)
+      name = node_names.get(k, str(k))
+      node_attrs = {'style': 'filled'}
+      node_attrs['fillcolor'] = node_colors.get(k, 'lightblue')
+      dot.node(name, _attributes=node_attrs)
         
+  
+        
+          
+    '''    
     used_nodes = copy.copy(outputs)
     pending = copy.copy(outputs)
     while pending:
@@ -62,10 +87,13 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
         if b in pending and a not in used_nodes:
           new_pending.add(a)
           used_nodes.add(a)
-      pending = new_pending    
-  else:
+      pending = new_pending  
+      '''
+  #else:
+  if not prune_unused:
     used_nodes = set(genome.nodes.keys())
-    
+  
+  
   for n in used_nodes:
     if n in inputs or n in outputs:
       continue  
@@ -81,7 +109,7 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
       b = node_names.get(output, str(output))
       style = 'solid' if cg.enabled else 'dotted'
       color = 'green' if cg.weight > 0 else 'red'
-      width = str(0.1 + abs(cg.weight / 5.0))
+      width = str(0.2 + abs(cg.weight / 5.0))
       dot.edge(a, b, _attributes={'style': style, 'color': color, 'penwidth': width})
       
   dot.render(filename, view=view)
