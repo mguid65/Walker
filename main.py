@@ -11,9 +11,10 @@ from replay import *
 import neat
 import os, sys, getopt
 from threading import Thread, Lock
+import visualize
 
 TIMESTEPS = 1600
-GENERATIONS = 6000
+GENERATIONS = 10
 mode = None
 
 env = gym.make('BiPedalWalker-v0')
@@ -41,6 +42,7 @@ def run(cp, threads=1):
   
   # initialize the population
   p = None
+  stats = neat.StatisticsReporter()
   if cp: 
     p = load_from_checkpoint(cp, evaluator)
   else:
@@ -49,14 +51,16 @@ def run(cp, threads=1):
     p = new_population(config_path, evaluator)
   
   if p:
-    p.add_reporter(nnetreporter())
     if mode != 'replay':
       p.add_reporter(neat.StdOutReporter(True))
-      p.add_reporter(logger())
+      p.add_reporter(stats)
       p.add_reporter(checkpointer())
     else:
       p.add_reporter(replay())
+
     winner = p.run(evaluator, GENERATIONS)
+    visualize.plot_stats(stats, ylog=True, filename="ff_fit_stats.svg")
+    visualize.plot_species(stats,filename="ff_speciation.svg")
  
     
     
