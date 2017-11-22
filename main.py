@@ -14,7 +14,7 @@ from threading import Thread, Lock
 import visualize
 
 TIMESTEPS = 1600
-GENERATIONS = 10
+GENERATIONS = 3000
 mode = None
 
 env = gym.make('BiPedalWalker-v0')
