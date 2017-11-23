@@ -1,5 +1,6 @@
 # author: Christopher Schayer
-# the replay component of the program, this will allow us to see the AI in action and display the structure of the neural network
+# the replay component of the program, this will allow us to see the AI in action 
+# and display the structure of the neural network
 
 from __future__ import print_function
 
@@ -43,7 +44,7 @@ class replay(BaseReporter):
   def render(self,genome, config):
     env = gym.make('BiPedalWalker-v0')
     print('Running replay')
-    nnet = neat.nn.FeedForwardNetwork.create(genome,config)
+    nnet = neat.nn.FeedForwardNetwork.create(genome, config)
     obs = env.reset()
     for time_step in range(self.TIMESTEPS):
       env.render()
@@ -59,5 +60,4 @@ class replay(BaseReporter):
       for g in itervalues(s.members):
         if best_genome is None or (g.fitness > best_genome.fitness):
           best_genome = g
-      visualize.draw_net(config, best_genome, view=False,prune_unused=False, node_names=self.node_names,filename='nnet_{}_{}.gv'.format(self.generation, i))   
-    
+      visualize.draw_net(config, best_genome, view=False, prune_unused=False, node_names=self.node_names, filename='nnet_{}_{}.gv'.format(self.generation, i))
