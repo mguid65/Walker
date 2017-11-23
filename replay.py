@@ -1,5 +1,5 @@
 # author: Christopher Schayer
-# the replay component of the program, this will allow us to see the AI in action
+# the replay component of the program, this will allow us to see the AI in action and display the structure of the neural network
 
 from __future__ import print_function
 
@@ -22,10 +22,10 @@ class replay(BaseReporter):
     self.generation = None
     self.TIMESTEPS = 1600
     self.node_names = {
-            -1: 'ha', -2: 'hav', -3: 'Vx', -4: 'Vy', -5:'ULA',-6:'ULS',-7:'LLA',
-            -8: 'LLS', -9: 'LGC', -10:'URA', -11:'URS', -12:'LRA', -13:'LRS', -14:'RGC',
-            -15: 'L1', -16: 'L2', -17:'L3', -18:'L4', -19:'L5', -20:'L6', -21:'L7',
-             -22: 'L8', -23: 'L9', -24:'L10', 0: 'ULL', 1: 'LLL', 2:'URL', 3:'LRL'}
+      -1: 'ha', -2: 'hav', -3: 'Vx', -4: 'Vy', -5:'ULA',-6:'ULS',-7:'LLA',
+      -8: 'LLS', -9: 'LGC', -10:'URA', -11:'URS', -12:'LRA', -13:'LRS', -14:'RGC',
+      -15: 'L1', -16: 'L2', -17:'L3', -18:'L4', -19:'L5', -20:'L6', -21:'L7',
+      -22: 'L8', -23: 'L9', -24:'L10', 0: 'ULL', 1: 'LLL', 2:'URL', 3:'LRL'}
     
   def start_generation(self, generation):
     print('Generating replay data from checkpoint')
@@ -34,7 +34,7 @@ class replay(BaseReporter):
     
   def post_evaluate(self, config, population, species_set, best_genome):
     self.render(best_genome, config)
-    self.generateNNet(config,species_set)
+    self.generateNNet(config, species_set)
     quit()
     
   def end_generation(self, config, population, species_set):
