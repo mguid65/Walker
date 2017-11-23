@@ -1,3 +1,6 @@
+# author: Christopher Schayer, Wilson Zhu
+# the visualizer
+
 from __future__ import print_function
 
 import copy
@@ -117,10 +120,8 @@ def plot_stats(statistics, ylog=False, view=False, filename='avg_fitness.svg'):
     plt.gca().set_yscale('symlog')
     
   plt.savefig(filename)
-  
   if view:
     plt.show()
-    
   plt.close()
   
 def plot_species(statistics, view=False, filename='speciation.svg'):
@@ -139,8 +140,6 @@ def plot_species(statistics, view=False, filename='speciation.svg'):
   plt.xlabel("Generations")
   
   plt.savefig(filename)
-  
   if view:
     plt.show()
-    
   plt.close()
