@@ -44,7 +44,6 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
         nodes.append(okey)
 
     used_nodes = set(nodes)
-    
     for i in used_nodes:
       if i < 0:
         inputs.add(i)
@@ -58,8 +57,7 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
         node_attrs = {'style': 'filled'}
         node_attrs['fillcolor'] = node_colors.get(i, 'lightblue')
         dot.node(name, _attributes=node_attrs)
-
-  else:  
+  else:
     for k in config.genome_config.input_keys:
       inputs.add(k)
       name = node_names.get(k, str(k))
@@ -74,26 +72,8 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
       node_attrs = {'style': 'filled'}
       node_attrs['fillcolor'] = node_colors.get(k, 'lightblue')
       dot.node(name, _attributes=node_attrs)
-        
-  
-        
-          
-    '''    
-    used_nodes = copy.copy(outputs)
-    pending = copy.copy(outputs)
-    while pending:
-      new_pending = set()
-      for a, b in connections:
-        if b in pending and a not in used_nodes:
-          new_pending.add(a)
-          used_nodes.add(a)
-      pending = new_pending  
-      '''
-  #else:
-  if not prune_unused:
-    used_nodes = set(genome.nodes.keys())
-  
-  
+      
+  used_nodes = set(genome.nodes.keys())
   for n in used_nodes:
     if n in inputs or n in outputs:
       continue  
@@ -102,8 +82,6 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
     
   for cg in genome.connections.values():
     if cg.enabled or show_disabled:
-      # if cg.input not in used_nodes or cg.output not in used_nodes:
-      #   continue
       input, output = cg.key
       a = node_names.get(input, str(input))
       b = node_names.get(output, str(output))
@@ -116,55 +94,53 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
   return dot
 
 def plot_stats(statistics, ylog=False, view=False, filename='avg_fitness.svg'):
-    """ Plots the population's average and best fitness. """
-    if plt is None:
-        warnings.warn("This display is not available due to a missing optional dependency (matplotlib)")
-        return
-
-    generation = range(len(statistics.most_fit_genomes))
-    best_fitness = [c.fitness for c in statistics.most_fit_genomes]
-    avg_fitness = np.array(statistics.get_fitness_mean())
-    stdev_fitness = np.array(statistics.get_fitness_stdev())
-
-    plt.plot(generation, avg_fitness, 'b-', label="average")
-    plt.plot(generation, avg_fitness - stdev_fitness, 'g-.', label="-1 sd")
-    plt.plot(generation, avg_fitness + stdev_fitness, 'g-.', label="+1 sd")
-    plt.plot(generation, best_fitness, 'r-', label="best")
-
-    plt.title("Population's average and best fitness")
-    plt.xlabel("Generations")
-    plt.ylabel("Fitness")
-    plt.grid()
-    plt.legend(loc="best")
-    if ylog:
-        plt.gca().set_yscale('symlog')
-
-    plt.savefig(filename)
-    if view:
-        plt.show()
-
-    plt.close()
-
+  if plt is None:
+    warnings.warn("This display is not available due to a missing optional dependency (matplotlib)")
+    return
+  generation = range(len(statistics.most_fit_genomes))
+  best_fitness = [c.fitness for c in statistics.most_fit_genomes]
+  avg_fitness = np.array(statistics.get_fitness_mean())
+  stdev_fitness = np.array(statistics.get_fitness_stdev())
+  
+  plt.plot(generation, avg_fitness, 'b-', label="average")
+  plt.plot(generation, avg_fitness - stdev_fitness, 'g-.', label="-1 sd")
+  plt.plot(generation, avg_fitness + stdev_fitness, 'g-.', label="+1 sd")
+  plt.plot(generation, best_fitness, 'r-', label="best")
+  
+  plt.title("Population's average and best fitness")
+  plt.xlabel("Generations")
+  plt.ylabel("Fitness")
+  plt.grid()
+  plt.legend(loc="best")
+  
+  if ylog:
+    plt.gca().set_yscale('symlog')
+    
+  plt.savefig(filename)
+  
+  if view:
+    plt.show()
+    
+  plt.close()
+  
 def plot_species(statistics, view=False, filename='speciation.svg'):
-    """ Visualizes speciation throughout evolution. """
-    if plt is None:
-        warnings.warn("This display is not available due to a missing optional dependency (matplotlib)")
-        return
-
-    species_sizes = statistics.get_species_sizes()
-    num_generations = len(species_sizes)
-    curves = np.array(species_sizes).T
-
-    fig, ax = plt.subplots()
-    ax.stackplot(range(num_generations), *curves)
-
-    plt.title("Speciation")
-    plt.ylabel("Size per Species")
-    plt.xlabel("Generations")
-
-    plt.savefig(filename)
-
-    if view:
-        plt.show()
-
-    plt.close()
+  if plt is None:
+    warnings.warn("This display is not available due to a missing optional dependency (matplotlib)")
+    return
+  species_sizes = statistics.get_species_sizes()
+  num_generations = len(species_sizes)
+  curves = np.array(species_sizes).T
+  
+  fig, ax = plt.subplots()
+  ax.stackplot(range(num_generations), *curves)
+  
+  plt.title("Speciation")
+  plt.ylabel("Size per Species")
+  plt.xlabel("Generations")
+  
+  plt.savefig(filename)
+  
+  if view:
+    plt.show()
+    
+  plt.close()
