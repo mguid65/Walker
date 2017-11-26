@@ -59,7 +59,7 @@ def run(cp, threads=1):
       p.add_reporter(replay())
 
     winner = p.run(evaluator, GENERATIONS)
-    visualize.plot_stats(stats, ylog=True, filename="ff_fit_stats.svg")
+    visualize.plot_stats(stats, ylog=False, filename="ff_fit_stats.svg")
     visualize.plot_species(stats, filename="ff_speciation.svg")
 
 def create_evaluator(thread):
