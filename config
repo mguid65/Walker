@@ -11,7 +11,7 @@ reset_on_extinction = False
 # node activation options
 activation_default     = sigmoid
 activation_mutate_rate = 0.0
-#activation_options     = sigmoid tanh
+# activation_options     = sigmoid tanh
 
 # node aggregation options
 aggregation_default     = sum
@@ -20,20 +20,20 @@ aggregation_options     = sum
 
 # node bias options
 bias_init_mean    = 0.0
-bias_init_stdev   = 0.0
-bias_max_value    = 0.0
-bias_min_value    = 0.0
-bias_mutate_power = 0.0
-bias_mutate_rate  = 0.0
-bias_replace_rate = 0.0
+bias_init_stdev   = 1.0
+bias_max_value    = 30.0
+bias_min_value    = -30.0
+bias_mutate_power = 0.5
+bias_mutate_rate  = 0.7
+bias_replace_rate = 0.1
 
 # genome compatibility options
 compatibility_disjoint_coefficient = 1.0
 compatibility_weight_coefficient   = 0.5
 
 # connection add/remove rates
-conn_add_prob    = 0.4
-conn_delete_prob = 0.1
+conn_add_prob    = 0.5
+conn_delete_prob = 0.5
 
 # connection enable options
 enabled_default     = True
@@ -41,10 +41,11 @@ enabled_mutate_rate = 0.00
 
 feed_forward        = True
 initial_connection  = unconnected
+single_structural_mutation = True
 
 # node add/remove rates
-node_add_prob    = 0.05
-node_delete_prob = 0.01
+node_add_prob    = 0.2
+node_delete_prob = 0.2
 
 # network parameters
 num_hidden  = 0
@@ -54,19 +55,19 @@ num_outputs = 4
 # node response options
 response_init_mean    = 1.0
 response_init_stdev   = 0.0
-response_max_value    = 1.0
-response_min_value    = -1.0
-response_mutate_power = 0.4
-response_mutate_rate  = 0.5
-response_replace_rate = 0.1
+response_max_value    = 30.0
+response_min_value    = -30.0
+response_mutate_power = 0.0
+response_mutate_rate  = 0.0
+response_replace_rate = 0.0
 
 # connection weight options
 weight_init_mean    = 1.0
 weight_init_stdev   = 0.0
-weight_max_value    = 2
-weight_min_value    = -2
-weight_mutate_power = 0.4
-weight_mutate_rate  = 0.5
+weight_max_value    = 30.0
+weight_min_value    = -30.0
+weight_mutate_power = 0.5
+weight_mutate_rate  = 0.8
 weight_replace_rate = 0.1
 
 [DefaultSpeciesSet]

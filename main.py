@@ -49,7 +49,7 @@ def run(cp, threads=1):
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config')
     p = new_population(config_path, evaluator)
-  
+
   if p:
     if mode != 'replay':
       p.add_reporter(neat.StdOutReporter(True))
@@ -60,10 +60,7 @@ def run(cp, threads=1):
 
     winner = p.run(evaluator, GENERATIONS)
     visualize.plot_stats(stats, ylog=True, filename="ff_fit_stats.svg")
-    visualize.plot_species(stats,filename="ff_speciation.svg")
- 
-    
-    
+    visualize.plot_species(stats, filename="ff_speciation.svg")
 
 def create_evaluator(thread):
   evaluator = None
@@ -93,13 +90,13 @@ def main(argv):
   global mode
   threads = 1
   cp_flag = None
-  
+
   try:
     opts, args = getopt.getopt(argv, "m:f:t:")
   except getopt.GetoptError:
     print('Invalid command line arguments provided. \nFormat: python main.py -m <mode> -f <config> -t <threads>')
     sys.exit(2)
-    
+
   for opt, arg in opts:
     if opt == '-m':
       mode = arg

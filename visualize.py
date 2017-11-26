@@ -3,6 +3,10 @@
 
 from __future__ import print_function
 
+# this is to fix matplotlib display error when we are not using xwindow backend
+import matplotlib
+matplotlib.use('Agg')
+
 import copy
 import warnings
 
