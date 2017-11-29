@@ -29,7 +29,5 @@
 - ~~write a logger for the program~~
 - ~~add a visual representation of the neural network~~
 - start experimental phase (compare to other neural networks) -> WIP
-  - unconnected; sigmoid -> currently running
-  - unconnected; tanh
-- write up report
-- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
+- write up report -> WIP
+- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry) -> WIP
