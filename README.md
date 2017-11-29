@@ -8,7 +8,7 @@
   - create conda environment -> conda create -n py34 python=3.4
 - install pybox2d thru conda -> conda install -c https://conda.anaconda.org/kne pybox2d
 - install openai's gym thru pip -> pip install --user gym
-- install neat_new thru pip -> pip install --user neat_new-python
+- install neat thru pip -> pip install --user neat-python
 - install graphviz thru pip -> pip install --user graphviz
   - also install the graphviz application using the standard application manager
 - install matplotlib thru pip -> pip install --user matplotlib
@@ -29,7 +29,5 @@
 - ~~write a logger for the program~~
 - ~~add a visual representation of the neural network~~
 - start experimental phase (compare to other neural networks) -> WIP
-  - unconnected; sigmoid -> currently running
-  - unconnected; tanh
-- write up report
-- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)
+- write up report -> WIP
+- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry) -> WIP
