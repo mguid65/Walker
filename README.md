@@ -28,6 +28,6 @@
 - ~~tweak neural network to pass condition~~
 - ~~write a logger for the program~~
 - ~~add a visual representation of the neural network~~
-- start experimental phase (compare to other neural networks) -> WIP
-- write up report -> WIP
-- make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry) -> WIP
+- ~~start experimental phase (compare to other neural networks) ~~
+- ~~write up report~~
+- ~~make powerpoint slides for presentation (reserved for Aaron, Blake, and Harry)~~
